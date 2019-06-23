@@ -25,6 +25,7 @@ public class Base {
         System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
       }
+      driver.manage().window().maximize();
     }
 
     @Override
