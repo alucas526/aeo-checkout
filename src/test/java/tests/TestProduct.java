@@ -18,7 +18,7 @@ public class TestProduct extends Base {
   private Cart cart;
   private Checkout checkout;
 
-  String user = "alucas+aeotest@gmail.com";
+  String user = "alucas+testaeo@gmail.com";
   String pass = "P@ss1234!";
 
   @Before
@@ -45,6 +45,7 @@ public class TestProduct extends Base {
   @Test
   public void loginSuccess() {
     login.loginAsExistingUser(user, pass);
+    assertTrue("Username is not present. Login unsuccessful.", login.loginSuccessful());
   }
 
 }
