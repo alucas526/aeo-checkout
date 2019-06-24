@@ -14,7 +14,6 @@ public class Product extends Base {
   By sizeChoice = By.linkText("29 X 30");
   By addToBag = By.cssSelector(".qa-btn-add-to-bag");
   By checkoutButton = By.cssSelector(".qa-view-bag-btn");
-  By proceedToCheckout = By.xpath("(//*[@class='btn btn-primary btn-block btn-go2checkout qa-btn-go2checkout'])[2]");
 
   public Product(WebDriver driver) {
     super(driver);
