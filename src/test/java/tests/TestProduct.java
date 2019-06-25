@@ -40,6 +40,11 @@ public class TestProduct extends Base {
     assertTrue("Cart Proceed to Checkout button is not present.", cart.cartProceedToCheckoutPresent());
     cart.proceedToCheckout();
     assertTrue("Place Order button is not present.", checkout.placeOrderButtonPresent());
+    checkout.anonShipInfo("Pennsylvania");
+//    checkout.shippingOption();
+//    assertTrue("Expected shipping method not selected.", checkout.shipmentTypeSelected());
+    checkout.selectPaymentMethod("PP");
+    assertTrue("Expected payment method is not selected", checkout.paymentMethodSelected("PP"));
   }
 
   @Test
