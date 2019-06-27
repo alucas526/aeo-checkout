@@ -4,24 +4,21 @@ package pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import static org.junit.Assert.assertTrue;
 
 public class Product extends Base {
 
-  private WebDriver driver;
-  By sizeChartTextLink = By.cssSelector(".psp-sizechart-link.text-left");
-  By sizeDropdown = By.cssSelector(".dropdown-text");
-  By sizeChoice = By.linkText("29 X 30");
-  By addToBag = By.cssSelector(".qa-btn-add-to-bag");
-  By checkoutButton = By.cssSelector(".qa-view-bag-btn");
+  private By sizeChartTextLink = By.cssSelector(".psp-sizechart-link.text-left");
+  private By sizeDropdown = By.cssSelector(".dropdown-text");
+  private By sizeChoice = By.linkText("29 X 30");
+  private By addToBag = By.cssSelector(".qa-btn-add-to-bag");
+  private By checkoutButton = By.cssSelector(".qa-view-bag-btn");
 
   public Product(WebDriver driver) {
     super(driver);
-    visit("/p/0111_4680_482?menu=cat4840004");
-    assertTrue("Size chart is not present; not a product page.", driver.findElement(sizeChartTextLink).isDisplayed());
   }
 
   public void chooseSize() {
+    visit("/p/0111_4680_482?menu=cat4840004");
     isDisplayed(sizeChartTextLink);
     isDisplayed(sizeDropdown, 10);
     click(sizeDropdown);
@@ -32,13 +29,11 @@ public class Product extends Base {
   public void addToBag() {
     isDisplayed(addToBag);
     click(addToBag);
-    System.out.println("Added to Bag.");
   }
 
   public void goToCart() {
     isDisplayed(checkoutButton);
     click(checkoutButton);
-    System.out.println("Going to Cart.");
   }
 
   // Assertion methods

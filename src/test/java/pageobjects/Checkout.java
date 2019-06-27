@@ -6,43 +6,38 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import static org.openqa.selenium.support.ui.Select.*;
-
 public class Checkout extends Base {
 
-  private WebDriver driver;
   // Address Fields
-  By firstNameField = By.name("firstname");
-  By lastNameField = By.name("lastname");
-  By address1Field = By.name("streetAddress");
-  By address2Field = By.name("streetAddress2");
-  By cityField = By.name("city");
-  By stateDropdown = By.name("states");
-  By stateText = By.linkText("Pennsylvania");
-  By zipCodeField = By.name("postalCode");
+  private By firstNameField = By.name("firstname");
+  private By lastNameField = By.name("lastname");
+  private By address1Field = By.name("streetAddress");
+  private By address2Field = By.name("streetAddress2");
+  private By cityField = By.name("city");
+  private By stateDropdown = By.name("states");
+  private By zipCodeField = By.name("postalCode");
 
   // Shipping Options
-  By standardShipping = By.cssSelector(".qa-selectable-option-shipping-method-us-std");
-  By stdShipping = By.xpath("//*[contains(@class, 'qa-shipping-method-options')]//*[@cssSelector='.qa-selectable-option-shipping-method-us-std']");
-  By standardShippingSelected = By.cssSelector(".is-selected.qa-selectable-option-shipping-method-us-std");
-  By twoDayShipping = By.cssSelector("");
-  By twoDayShippingSelected = By.cssSelector(".");
-  By overnightShipping = By.name("");
-  By overnightShippingSelected = By.cssSelector("");
+  private By standardShipping = By.cssSelector(".qa-shipping-method-us-std");
+  private By standardShippingSelected = By.cssSelector(".is-selected.qa-selectable-option-shipping-method-us-std");
+  private By twoDayShipping = By.cssSelector(".qa-shipping-method-us-2dy");
+  private By twoDayShippingSelected = By.cssSelector(".is-selected.qa-selectable-option-shipping-method-us-2dy");
+  private By overnightShipping = By.name(".qa-shipping-method-us-ont");
+  private By overnightShippingSelected = By.cssSelector(".is-selected.qa-selectable-option-shipping-method-us-ont");
 
   // Payment Options
-  By payByCreditCard = By.cssSelector(".qa-selectable-option-payment-method-credit-card");
-  By inputCreditCardNumber = By.cssSelector(".qa-input-cardNumber");
-  By inputExpirationDate = By.cssSelector(".qa-input-expirationDate");
-  By inputSecurityCode = By.cssSelector(".qa-input-securityCode");
-  By inputPhoneNumber = By.cssSelector(".qa-input-phoneNumber");
-  By payByPayPal = By.cssSelector(".qa-selectable-option-payment-method-paypal");
-  By payPalSelected = By.cssSelector(".qa-section-payment-paypal-desc");
+  private By payByCreditCard = By.cssSelector(".qa-selectable-option-payment-method-credit-card");
+  private By inputCreditCardNumber = By.name("cardNumber");
+  private By inputExpirationDate = By.name("expirationDate");
+  private By inputSecurityCode = By.name("securityCode");
+  private By inputPhoneNumber = By.name("phoneNumber");
+  private By payByPayPal = By.cssSelector(".qa-selectable-option-payment-method-paypal");
+  private By payPalSelected = By.cssSelector(".qa-section-payment-paypal-desc");
 
   // Final Info
-  By emailAddress = By.cssSelector(".qa-input-email"); // anonymous users
-  By placeOrder = By.cssSelector(".qa-btn-place-order");
-  By placeOrderPayPal = By.cssSelector(".qa-btn-place-order-paypal");
+  private By inputEmailAddress = By.name("email"); // anonymous users
+  private By placeOrderCCButton = By.cssSelector(".qa-btn-place-order");
+  private By placeOrderPayPalButton = By.cssSelector(".qa-btn-place-order-paypal");
 
   public Checkout(WebDriver driver) {
     super(driver);
@@ -62,30 +57,56 @@ public class Checkout extends Base {
     click(stateDropdown);
     getState(state);
     type("15218", zipCodeField);
+    type("alucas+testaeo@gmail.com", inputEmailAddress);
   }
 
-  public void shippingOption() {
-    isDisplayed(standardShipping);
-    isDisplayed(twoDayShipping);
-    isDisplayed(overnightShipping);
-    click(stdShipping);
+  public void shippingOption(String shipSpeed) {
+    isDisplayed(standardShipping, 1);
+    isDisplayed(twoDayShipping, 1);
+    isDisplayed(overnightShipping, 1);
+    if (shipSpeed.equals("standard")) {
+      click(standardShipping);
+    } else if (shipSpeed.equals("2dy")) {
+      click(twoDayShipping);
+    } else if (shipSpeed.equals("ont")) {
+      click(overnightShipping);
+    }
   }
 
   public void selectPaymentMethod(String paymentMethod) {
     isDisplayed(payByCreditCard);
     isDisplayed(payByPayPal);
-    if (paymentMethod.equals("CC")) {
-      click(payByCreditCard);
-    } else {
+    if (paymentMethod.equals("PayPal")) {
       click(payByPayPal);
+    } else {
+      click(payByCreditCard);
+    }
+  }
+
+  public void enterPaymentInfo(String paymentMethod, String expirationDate, String securityCode) {
+    if (paymentMethod.equals("PayPal")) {
+      isDisplayed(placeOrderPayPalButton);
+      click(placeOrderPayPalButton);
+    } else {
+      isDisplayed(inputCreditCardNumber, 10);
+      isDisplayed(inputExpirationDate);
+      isDisplayed(inputSecurityCode);
+      isDisplayed(inputPhoneNumber);
+      isDisplayed(placeOrderCCButton);
+      type(paymentMethod, inputCreditCardNumber);
+      type(paymentMethod, inputCreditCardNumber);
+      type(expirationDate, inputExpirationDate);
+      type(securityCode, inputSecurityCode);
+      type("412-555-1212", inputPhoneNumber);
+      click(placeOrderCCButton);
     }
   }
 
   // Assertion methods
 
   public Boolean placeOrderButtonPresent() {
-    isDisplayed(placeOrder, 10);
-    return isDisplayed(placeOrder);
+    isDisplayed(placeOrderCCButton, 10);
+    return isDisplayed(placeOrderCCButton);
   }
 
   public Boolean shipmentTypeSelected() {
@@ -94,12 +115,12 @@ public class Checkout extends Base {
   }
 
   public Boolean paymentMethodSelected(String paymentMethod) {
-    if (paymentMethod.equals("CC")) {
-      isDisplayed(inputCreditCardNumber);
-      return isDisplayed(inputCreditCardNumber);
-    } else {
+    if (paymentMethod.equals("PayPal")) {
       isDisplayed(payPalSelected, 1);
       return isDisplayed(payPalSelected);
+    } else {
+      isDisplayed(inputCreditCardNumber);
+      return isDisplayed(inputCreditCardNumber);
     }
   }
 

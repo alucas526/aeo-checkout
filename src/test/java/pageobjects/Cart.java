@@ -8,8 +8,7 @@ import org.openqa.selenium.WebDriver;
 
 public class Cart extends Base {
 
-  private WebDriver driver;
-  By proceedToCheckout = By.xpath("(//*[@class='btn btn-primary btn-block btn-go2checkout qa-btn-go2checkout'])[2]");
+  private By proceedToCheckout = By.xpath("(//*[@class='btn btn-primary btn-block btn-go2checkout qa-btn-go2checkout'])[2]");
 
   public Cart(WebDriver driver) {
     super(driver);
@@ -18,7 +17,6 @@ public class Cart extends Base {
   public void proceedToCheckout() {
     isDisplayed(proceedToCheckout, 10);
     click(proceedToCheckout);
-    System.out.println("Proceeding to Checkout.");
   }
 
   // Assertion methods
