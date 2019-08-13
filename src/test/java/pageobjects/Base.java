@@ -9,15 +9,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Base {
+class Base {
 
   private WebDriver driver;
 
-  public Base(WebDriver driver) {
+  Base(WebDriver driver) {
     this.driver = driver;
   }
 
-  public void visit(String url) {
+  void visit(String url) {
     if (url.contains("http")) {
       driver.get(url);
     } else {
@@ -25,19 +25,20 @@ public class Base {
     }
   }
 
-  public WebElement find(By locator) {
+  WebElement find(By locator) {
     return driver.findElement(locator);
   }
 
-  public void click(By locator) {
+  void click(By locator) {
     find(locator).click();
   }
 
-  public void type(String inputText, By locator) {
+  void type(String inputText, By locator) {
+    find(locator).clear();
     find(locator).sendKeys(inputText);
   }
 
-  public Boolean isDisplayed(By locator) {
+  Boolean isDisplayed(By locator) {
     try {
       return find(locator).isDisplayed();
     } catch (org.openqa.selenium.NoSuchElementException exception) {
@@ -45,7 +46,7 @@ public class Base {
     }
   }
 
-  public Boolean isDisplayed(By locator, Integer timeout) {
+  Boolean isDisplayed(By locator, Integer timeout) {
     try {
       WebDriverWait wait = new WebDriverWait(driver, timeout);
       wait.until(ExpectedConditions.visibilityOfElementLocated(locator));

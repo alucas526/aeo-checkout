@@ -25,10 +25,24 @@
 
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
     <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>LATEST</version>
-        <scope>test</scope>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>LATEST</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <scope>test</scope>
+      <version>1.0.11</version>
+    </dependency>
+
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-jvm</artifactId>
+      <version>1.0.11</version>
+      <type>pom</type>
     </dependency>
 
   </dependencies>
