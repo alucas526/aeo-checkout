@@ -68,6 +68,26 @@ public class TestProduct extends Base {
   }
 
   @Test
+  public void buyJeansRegisteredVisa() {
+    login.loginAsExistingUser(user, pass);
+    assertTrue("Username is not present. Login unsuccessful.", login.loginSuccessful());
+    product.chooseSize();
+    assertTrue("Add To Bag not active.", product.addToBagPresent());
+    product.addToBag();
+    assertTrue("Checkout button is not present.", product.checkoutButtonPresent());
+    product.goToCart();
+    assertTrue("Cart Proceed to Checkout button is not present.", cart.cartProceedToCheckoutPresent());
+    cart.proceedToCheckout();
+    assertTrue("Place Order button is not present.", checkout.placeOrderButtonPresent());
+    checkout.shippingOption("standard");
+    assertTrue("Expected shipping method not selected.", checkout.shipmentTypeSelected());
+    checkout.selectPaymentMethod("Credit Card");
+    assertTrue("Expected payment method is not selected", checkout.paymentMethodSelected("Credit Card"));
+    checkout.enterPaymentInfo(paymentInfoVisa[0], paymentInfoVisa[1], paymentInfoVisa[2]);
+    assertTrue("Order confirmation message is not displayed.", orderConfirmation.confirmationMessageDisplayed());
+  }
+
+  @Test
   public void buyJeansAnonymousMC() {
     product.chooseSize();
     assertTrue("Add To Bag not active.", product.addToBagPresent());
